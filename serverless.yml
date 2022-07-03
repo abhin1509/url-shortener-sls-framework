@@ -14,7 +14,7 @@ package:
     - '!package.json'
     - '!package-lock.json'
     - '!node_modules/**'
-    - '!scrap.txt'
+    - '!README.md'
   
 functions:
   hello:
