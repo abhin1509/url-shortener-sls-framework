@@ -1,0 +1,19 @@
+{
+  "name": "url-shortener-sls-framework",
+  "version": "1.0.0",
+  "description": "<!--\r title: 'AWS NodeJS Example'\r description: 'This template demonstrates how to deploy a NodeJS function running on AWS Lambda using the traditional Serverless Framework.'\r layout: Doc\r framework: v3\r platform: AWS\r language: nodeJS\r priority: 1\r authorLink: 'https://github.com/serverless'\r authorName: 'Serverless, inc.'\r authorAvatar: 'https://avatars1.githubusercontent.com/u/13742415?s=200&v=4'\r -->",
+  "main": "handler.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abhin1509/url-shortener-sls-framework.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/abhin1509/url-shortener-sls-framework/issues"
+  },
+  "homepage": "https://github.com/abhin1509/url-shortener-sls-framework#readme"
+}
