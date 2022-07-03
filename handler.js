@@ -22,10 +22,10 @@ const sendResponse = (code, bool, msg, link) => {
   };
 };
 
-const createUrl = async (uniqueId, longUrl) => {
+const createUrl = async (uniqueId, longUrl, ttl) => {
   await dynamoDB
     .put({
-      Item: { uniqueId, longUrl },
+      Item: { uniqueId, longUrl, ttl },
       TableName: "shortUrlTable-sls",
     })
     .promise();
@@ -44,7 +44,14 @@ const getLongUrl = async (uniqueId) => {
       Key: { uniqueId },
     })
     .promise();
-  if (Object.keys(res).length === 0) {
+  console.log("curr time :: ", Math.round(Date.now() / 1000));
+  if (Object.keys(res).length === 0 || res.Item.ttl <= (Date.now() / 1000)) {
+    console.log("url do not exist");
+    return redirectToWrongUrl;
+  }
+  console.log("Item time :: ", res.Item.ttl);
+  if (res.Item.ttl <= (Date.now() / 1000)) {
+    console.log("url expired");
     return redirectToWrongUrl;
   }
   return res.Item.longUrl;
@@ -82,7 +89,10 @@ module.exports.hello = async (event) => {
         return sendResponse(201, true, "Url already available", bools);
       }
       const uniqueId = nanoid(idLength);
-      return createUrl(uniqueId, longUrl);
+      // generating epoch time
+      const ttl = (Math.round(Date.now() / 1000)) + 120; //60*2 mins
+      console.log(ttl);
+      return createUrl(uniqueId, longUrl, ttl);
     }
     if (event.httpMethod === 'GET') {
       let { id } = event.pathParameters;
