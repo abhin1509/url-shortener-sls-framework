@@ -32,7 +32,7 @@ const createUrl = async (uniqueId, longUrl, ttl) => {
   const params = {
     uniqueId,
     longUrl,
-    shortUrl: `https://7l3y958ttf.execute-api.us-east-1.amazonaws.com/dev/api/${uniqueId}`,
+    shortUrl: `https://ixj21at580.execute-api.us-east-1.amazonaws.com/dev/api/${uniqueId}`,
   };
   return sendResponse(201, true, "Url created successfully", params);
 };
@@ -69,7 +69,7 @@ const checkAvailability = async (longUrl) => {
       const params = {
         uniqueId: res.Items[i].uniqueId,
         longUrl: res.Items[i].longUrl,
-        shortUrl: `https://7l3y958ttf.execute-api.us-east-1.amazonaws.com/dev/api/${res.Items[i].uniqueId}`,
+        shortUrl: `https://ixj21at580.execute-api.us-east-1.amazonaws.com/dev/api/${res.Items[i].uniqueId}`,
       };
       return params;
     }
