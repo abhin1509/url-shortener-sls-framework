@@ -45,7 +45,7 @@ const getLongUrl = async (uniqueId) => {
     })
     .promise();
   console.log("curr time :: ", Math.round(Date.now() / 1000));
-  if (Object.keys(res).length === 0 || res.Item.ttl <= (Date.now() / 1000)) {
+  if (Object.keys(res).length === 0) {
     console.log("url do not exist");
     return redirectToWrongUrl;
   }
