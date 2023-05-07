@@ -11,6 +11,9 @@ const idLength = 4;
 const redirectToWrongUrl =
   "https://www.meme-arsenal.com/memes/c9e6371faa3b57eaee1d35595ca8e910.jpg";
 
+const apiBaseUrl = process.env.API_URL;
+const tableName = process.env.TABLE_NAME;
+
 const sendResponse = (code, bool, msg, link) => {
   return {
     statusCode: code,
@@ -26,13 +29,13 @@ const createUrl = async (uniqueId, longUrl, ttl) => {
   await dynamoDB
     .put({
       Item: { uniqueId, longUrl, ttl },
-      TableName: "shortUrlTable-sls",
+      TableName: tableName,
     })
     .promise();
   const params = {
     uniqueId,
     longUrl,
-    shortUrl: `https://ixj21at580.execute-api.us-east-1.amazonaws.com/dev/api/${uniqueId}`,
+    shortUrl: `${apiBaseUrl}/${uniqueId}`,
   };
   return sendResponse(201, true, "Url created successfully", params);
 };
@@ -40,7 +43,7 @@ const createUrl = async (uniqueId, longUrl, ttl) => {
 const getLongUrl = async (uniqueId) => {
   const res = await dynamoDB
     .get({
-      TableName: "shortUrlTable-sls",
+      TableName: tableName,
       Key: { uniqueId },
     })
     .promise();
@@ -60,7 +63,7 @@ const getLongUrl = async (uniqueId) => {
 const checkAvailability = async (longUrl) => {
   const res = await dynamoDB
     .scan({
-      TableName: "shortUrlTable-sls",
+      TableName: tableName,
     })
     .promise();
   console.log(res.Items.length);
@@ -69,7 +72,7 @@ const checkAvailability = async (longUrl) => {
       const params = {
         uniqueId: res.Items[i].uniqueId,
         longUrl: res.Items[i].longUrl,
-        shortUrl: `https://ixj21at580.execute-api.us-east-1.amazonaws.com/dev/api/${res.Items[i].uniqueId}`,
+        shortUrl: `${apiBaseUrl}/${res.Items[i].uniqueId}`,
       };
       return params;
     }
